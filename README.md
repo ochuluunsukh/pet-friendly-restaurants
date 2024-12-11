@@ -53,9 +53,17 @@ A web-based platform to help users find pet-friendly restaurants. The platform w
      - `address`
      - `phone_number`
      - `website`
+     - `is_pet_friendly`
    - Relationships:
      - A restaurant can have multiple **reviews**.
      - A restaurant can belong to multiple **categories**.
+
+6. **Address** (Admin manage)
+   - Attributes:
+     - `street`
+     - `city`
+     - `state`
+     - `zip`
 
 ---
 
