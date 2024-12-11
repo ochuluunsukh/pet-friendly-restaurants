@@ -20,16 +20,13 @@ A web-based platform to help users find pet-friendly restaurants. The platform w
      - A user can write **reviews**.
      - A user can save **favorite restaurants**.
 
-2. **Restaurant** (Admin manage)
+2. **Favorite**
    - Attributes:
+     - `favorite_id`
+     - `user_id`
      - `restaurant_id`
-     - `name`
-     - `address`
-     - `phone_number`
-     - `website`
    - Relationships:
-     - A restaurant can have multiple **reviews**.
-     - A restaurant can belong to multiple **categories**.
+     - A user can have multiple **favorite restaurants**.
 
 3. **Review**
    - Attributes:
@@ -49,13 +46,16 @@ A web-based platform to help users find pet-friendly restaurants. The platform w
    - Relationships:
      - A category can include multiple **restaurants**, and a restaurant can belong to multiple **categories**.
 
-5. **Favorite**
+5. **Restaurant** (Admin manage)
    - Attributes:
-     - `favorite_id`
-     - `user_id`
      - `restaurant_id`
+     - `name`
+     - `address`
+     - `phone_number`
+     - `website`
    - Relationships:
-     - A user can have multiple **favorite restaurants**.
+     - A restaurant can have multiple **reviews**.
+     - A restaurant can belong to multiple **categories**.
 
 ---
 
