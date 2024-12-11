@@ -20,7 +20,7 @@ A web-based platform to help users find pet-friendly restaurants. The platform w
      - A user can write **reviews**.
      - A user can save **favorite restaurants**.
 
-2. **Restaurant**
+2. **Restaurant** (Admin manage)
    - Attributes:
      - `restaurant_id`
      - `name`
@@ -42,7 +42,7 @@ A web-based platform to help users find pet-friendly restaurants. The platform w
    - Relationships:
      - A review is written by a **user** and belongs to a **restaurant**.
 
-4. **Category**
+4. **Category** (Admin manage)
    - Attributes:
      - `category_id`
      - `name`

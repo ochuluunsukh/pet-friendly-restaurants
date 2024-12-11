@@ -1,10 +1,10 @@
-package com.lesson.cs544.odkoo.backendforadmins;
+package com.lesson.cs544.odkoo.backendformanagements;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class BackEndForAdminsApplicationTests {
+class BackEndForManagementsApplicationTests {
 
     @Test
     void contextLoads() {

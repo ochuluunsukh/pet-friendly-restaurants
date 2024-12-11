@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.lesson.cs544.odkoo</groupId>
-    <artifactId>BackEndForAdmins</artifactId>
+    <artifactId>BackEndForManagements</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>BackEndForAdmins</name>
-    <description>BackEndForAdmins</description>
+    <name>BackEndForManagements</name>
+    <description>BackEndForManagements</description>
     <url/>
     <licenses>
         <license/>
