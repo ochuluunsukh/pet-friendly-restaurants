@@ -53,9 +53,7 @@ The system will consist of the following five primary entities and their relatio
      - Many-to-One with `Restaurant`.
 
 5. **Address**:
-   - Fields: `id`, `street`, `city`, `state`, `zipCode`, `latitude`, `longitude`.
-   - Relationships:
-     - One-to-One with `Restaurant`.
+   - Fields: `id`, `street`, `city`, `state`, `zipCode`.
 
 ---
 
