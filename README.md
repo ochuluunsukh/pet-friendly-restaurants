@@ -10,7 +10,7 @@ The application should allow users to find, review, and explore pet-friendly res
   - Users can save their favorite pet-friendly restaurants.
 
 - **Restaurant Management**:
-  - Restaurant owners can register their restaurants as pet-friendly.
+  - Restaurant can register their restaurants as pet-friendly.
   - Each restaurant should include details such as name, address, category, rating, and pet policies.
 
 - **Search and Filter**:
