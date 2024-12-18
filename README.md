@@ -1,24 +1,35 @@
-### User Requirements Document: Pet-Friendly Restaurant Finder
-
-#### **Project Overview**
-A web-based platform to help users find pet-friendly restaurants. The platform will include restaurant listings, reviews, user profiles, and filtering options. The system will also manage restaurant details and categorize them based on pet-friendliness.
+### Project Requirements and Structure for "Pet-Friendly Restaurants Finder"
 
 ---
 
-### **Entities**
+#### **1. User Requirements**
+The application should allow users to find, review, and explore pet-friendly restaurants. Key requirements include:
 
-1. **User**
-   - Attributes:
-     - `user_id`
-     - `username`
-     - `email`
-     - `password`
-     - `profile_picture`
-     - `Bio` (I have two dogs.)
-     - `is_pet_owner`
+- **User Registration and Authentication**:
+  - Users can sign up, log in, and manage their profiles.
+  - Users can save their favorite pet-friendly restaurants.
+
+- **Restaurant Management**:
+  - Restaurant owners can register their restaurants as pet-friendly.
+  - Each restaurant should include details such as name, address, category, rating, and pet policies.
+
+- **Search and Filter**:
+  - Users can search for restaurants by location, category, or specific pet policies.
+  - Filters should include options like "pet menu available," "pet play area," etc.
+
+- **Reviews and Ratings**:
+  - Users can leave reviews and ratings for restaurants.
+  - Reviews should include text, ratings, and optional pet-specific notes.
+
+---
+
+#### **2. Entity Definitions**
+The system will consist of the following five primary entities and their relationships:
+
+1. **User**:
+   - Fields: `id`, `name`, `email`, `password`, `favorites` (many-to-many relationship with `Restaurant`).
    - Relationships:
-     - A user can write **reviews**.
-     - A user can save **favorite restaurants**.
+     - One-to-Many with `Review`.
 
 2. **Favorite**
    - Attributes:
@@ -28,60 +39,56 @@ A web-based platform to help users find pet-friendly restaurants. The platform w
    - Relationships:
      - A user can have multiple **favorite restaurants**.
 
-3. **Review**
-   - Attributes:
-     - `review_id`
-     - `user_id`
-     - `restaurant_id`
-     - `rating`
-     - `comment`
-     - `created_at`
+3. **Restaurant**:
+   - Fields: `id`, `name`, `address`, `category`, `rating`, `petPolicyDetails`.
    - Relationships:
-     - A review is written by a **user** and belongs to a **restaurant**.
+     - Many-to-Many with `User`.
+     - One-to-Many with `Review`.
+     - Many-to-One with `Category`.
 
-4. **Category** (Admin manage)
-   - Attributes:
-     - `category_id`
-     - `name`
+4. **Review**:
+   - Fields: `id`, `userId`, `restaurantId`, `text`, `rating`, `petSpecificNotes`.
    - Relationships:
-     - A category can include multiple **restaurants**, and a restaurant can belong to multiple **categories**.
+     - Many-to-One with `User`.
+     - Many-to-One with `Restaurant`.
 
-5. **Restaurant** (Admin manage)
-   - Attributes:
-     - `restaurant_id`
-     - `name`
-     - `address`
-     - `phone_number`
-     - `website`
-     - `is_pet_friendly`
+5. **Address**:
+   - Fields: `id`, `street`, `city`, `state`, `zipCode`, `latitude`, `longitude`.
    - Relationships:
-     - A restaurant can have multiple **reviews**.
-     - A restaurant can belong to multiple **categories**.
-
-6. **Address** (Admin manage)
-   - Attributes:
-     - `street`
-     - `city`
-     - `state`
-     - `zip`
+     - One-to-One with `Restaurant`.
 
 ---
 
-### **Key Functionalities**
-1. **Search and Filter**
-   - Users can search for restaurants by name, location, or category.
-   - Users can filter results by pet-friendliness, rating, or amenities.
+#### **3. Service Division**
+To ensure modularity and scalability, divide the application into two Spring Boot services:
 
-2. **Restaurant Profiles**
-   - Display detailed information about restaurants, including pet-friendliness, reviews, and contact details.
+1. **Restaurant Service**:
+   - **Responsibilities**:
+     - Manage restaurant data (CRUD operations).
+     - Handle restaurant search, filtering, and pet-specific policy management.
+   - **Entities**:
+     - `Restaurant`, `Address`.
+   - **Endpoints**:
+     - `/restaurants` (GET, POST, PUT, DELETE).
+     - `/restaurants/search` (GET with filters).
 
-3. **User Accounts**
-   - Allow users to create profiles, save favorite restaurants, and write reviews.
+2. **User Service**:
+   - **Responsibilities**:
+     - Manage user profiles, favorites, and reviews.
+     - Handle authentication and notification subscriptions.
+   - **Entities**:
+     - `User`, `Favorite`, `Review`.
+   - **Endpoints**:
+     - `/users` (GET, POST, PUT, DELETE).
+     - `/users/favorites` (GET, POST).
+     - `/users/reviews` (GET, POST).
 
-4. **Reviews and Ratings**
-   - Users can rate restaurants and leave reviews to help others decide.
+---
 
-5. **Admin Management**
-   - Admin users can add, edit, or delete restaurants and categories.
+#### **4. JMS Integration**
+Use JMS for asynchronous communication between the two services:
+
+- **Review Synchronization**:
+  - When a review is added or updated in the **User Service**, send a message to the **Restaurant Service** to update the restaurant's average rating and review count.
 
 ---
