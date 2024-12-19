@@ -27,9 +27,10 @@ The application should allow customers to find, review, and explore pet-friendly
 The system will consist of the following five primary entities and their relationships:
 
 1. **Customer**:
-   - Fields: `id`, `name`, `email`, `password`, `favorites` (many-to-many relationship with `Restaurant`).
+   - Fields: `id`, `username`, `firstName`, `lastName`,  `email`, `password`, `role`, `reviews`, `favorites` (one-to-many relationship with `Restaurant`).
    - Relationships:
      - One-to-Many with `Review`.
+     - One-to-Many with `favorites`
 
 2. **Favorite**
    - Attributes:
@@ -37,22 +38,22 @@ The system will consist of the following five primary entities and their relatio
      - `customer_id`
      - `restaurant_id`
    - Relationships:
-     - A customer can have multiple **favorite restaurants**.
+     - Many-to-One with Customer.
+     - Many-to-One with Restaurant.
 
-3. **Restaurant**:
-   - Fields: `id`, `name`, `address`, `category`, `rating`, `petPolicyDetails`.
-   - Relationships:
-     - One-to-Many with `Review`.
-     - Many-to-One with `Category`.
-
-4. **Review**:
-   - Fields: `id`, `customerId`, `restaurantId`, `text`, `rating`, `petSpecificNotes`.
+3. **Review**:
+   - Fields: `id`, `customerId`, `restaurantId`, `text`, `rating`, `createdAt`, `updatedAt`, `petSpecificNotes`.
    - Relationships:
      - Many-to-One with `Customer`.
      - Many-to-One with `Restaurant`.
 
-5. **Address**:
-   - Fields: `id`, `street`, `city`, `state`, `zipCode`.
+4. **Restaurant**:
+   - Fields: `id`, `name`, `rating`, `petPolicyDetails`, `isPetMenuAvailable`, `hasPetPlayArea`.
+   - Relationships:
+     - One-to-Many with `Review`.
+
+5. **Address (Embeddable table)**:
+   - Fields: `country`, `street`, `city`, `state`, `zipCode` .
 
 ---
 
@@ -63,22 +64,23 @@ To ensure modularity and scalability, divide the application into two Spring Boo
    - **Responsibilities**:
      - Manage restaurant data (CRUD operations).
      - Handle restaurant search, filtering, and pet-specific policy management.
-   - **Entities**:
-     - `Restaurant`, `Address`.
-   - **Endpoints**:
-     - `/restaurants` (GET, POST, PUT, DELETE).
-     - `/restaurants/search` (GET with filters).
-
-2. **Customer Service**:
-   - **Responsibilities**:
      - Manage customer profiles, favorites, and reviews.
      - Handle authentication.
    - **Entities**:
-     - `Customer`, `Favorite`, `Review`.
+     - `Restaurant`, `Address`, `Customer`, `Favorite`, `Review`.
    - **Endpoints**:
+     - `/restaurants` (GET, POST, PUT, DELETE).
+     - `/restaurants/search` (GET with filters).
      - `/customers` (GET, POST, PUT, DELETE).
      - `/customers/favorites` (GET, POST).
      - `/customers/reviews` (GET, POST).
+
+2. **Ratings Service**:
+   - **Responsibilities**:
+     - 
+   - **Entities**:
+     - Restaurant Ratings
+
 
 ---
 
@@ -86,6 +88,6 @@ To ensure modularity and scalability, divide the application into two Spring Boo
 Use JMS for asynchronous communication between the two services:
 
 - **Review Synchronization**:
-  - When a review is added or updated in the **Customer Service**, send a message to the **Restaurant Service** to update the restaurant's average rating and review count.
+  - When a review is added or updated in the **Restaurant Service**, send a message to the **Rating Service** to update the restaurant's average rating and review count.
 
 ---
