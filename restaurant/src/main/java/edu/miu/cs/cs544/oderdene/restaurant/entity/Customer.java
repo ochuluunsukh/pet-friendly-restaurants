@@ -92,17 +92,17 @@ public class Customer {
         this.role = role;
     }
 
-    public List<Review> getReviews() {
-        return reviews;
-    }
+//    public List<Review> getReviews() {
+//        return reviews;
+//    }
 
     public void setReviews(List<Review> reviews) {
         this.reviews = reviews;
     }
 
-    public List<Favorite> getFavorites() {
-        return favorites;
-    }
+//    public List<Favorite> getFavorites() {
+//        return favorites;
+//    }
 
     public void setFavorites(List<Favorite> favorites) {
         this.favorites = favorites;

@@ -22,7 +22,7 @@ public class Favorite {
 
     private LocalDateTime createdAt = LocalDateTime.now();
 
-    protected Favorite() {}
+    public Favorite() {}
 
     public Favorite(Customer customer, Restaurant restaurant) {
         this.customer = customer;

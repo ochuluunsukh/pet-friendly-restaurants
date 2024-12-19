@@ -11,10 +11,10 @@ The application should allow customers to find, review, and explore pet-friendly
 
 - **Restaurant Management**:
   - Restaurant can register their restaurants as pet-friendly.
-  - Each restaurant should include details such as name, address, category, rating, and pet policies.
+  - Each restaurant should include details such as name, address, rating, and pet policies.
 
 - **Search and Filter**:
-  - Customers can search for restaurants by location, category, or specific pet policies.
+  - Customers can search for restaurants by address or specific pet policies.
   - Filters should include options like "pet menu available," "pet play area," etc.
 
 - **Reviews and Ratings**:
@@ -63,6 +63,7 @@ To ensure modularity and scalability, divide the application into two Spring Boo
 1. **Restaurant Service**:
    - **Responsibilities**:
      - Manage restaurant data (CRUD operations).
+     - Manage customer data (CRUD operations).
      - Handle restaurant search, filtering, and pet-specific policy management.
      - Manage customer profiles, favorites, and reviews.
      - Handle authentication.

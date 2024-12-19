@@ -81,9 +81,9 @@ public class Restaurant {
     public void setPetPolicyDetails(String petPolicyDetails) {
         this.petPolicyDetails = petPolicyDetails;
     }
-    public List<Review> getReviews() {
-        return reviews;
-    }
+//    public List<Review> getReviews() {
+//        return reviews;
+//    }
     public void setReviews(List<Review> reviews) {
         this.reviews = reviews;
     }
