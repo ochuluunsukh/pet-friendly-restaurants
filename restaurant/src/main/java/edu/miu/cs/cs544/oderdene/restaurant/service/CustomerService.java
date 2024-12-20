@@ -22,6 +22,10 @@ public class CustomerService {
         return customerRepository.findById(id);
     }
 
+    public Customer findByUsername(String username) {
+        return customerRepository.findByUsername(username);
+    }
+
     public List<Customer> getAllCustomers() {
         return customerRepository.findAll();
     }

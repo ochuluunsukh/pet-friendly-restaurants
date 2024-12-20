@@ -4,6 +4,7 @@ import edu.miu.cs.cs544.oderdene.restaurant.entity.*;
 import edu.miu.cs.cs544.oderdene.restaurant.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -23,11 +24,14 @@ public class DatabaseInitializer implements CommandLineRunner {
     @Autowired
     private FavoriteRepository favoriteRepository;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     @Override
     public void run(String... args) throws Exception {
         // Add Customers
-        Customer customer1 = new Customer("john_doe", "John", "Doe", "john.doe@example.com", "password123", "USER");
-        Customer customer2 = new Customer("jane_smith", "Jane", "Smith", "jane.smith@example.com", "password123", "USER");
+        Customer customer1 = new Customer("john_doe", "John", "Doe", "john.doe@example.com", passwordEncoder.encode("123"), "USER");
+        Customer customer2 = new Customer("jane_smith", "Jane", "Smith", "jane.smith@example.com", passwordEncoder.encode("123"), "USER");
         customerRepository.saveAll(List.of(customer1, customer2));
 
         // Add Restaurants
