@@ -32,6 +32,13 @@ public class RestaurantService {
         return restaurantRepository.save(restaurant);
     }
 
+    public void updateRating(Integer id, Integer rating) {
+        Restaurant res = restaurantRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Restaurant not found"));
+        res.setRating(rating);
+        restaurantRepository.save(res);
+    }
+
     public void deleteRestaurant(Integer id) {
         restaurantRepository.deleteById(id);
     }

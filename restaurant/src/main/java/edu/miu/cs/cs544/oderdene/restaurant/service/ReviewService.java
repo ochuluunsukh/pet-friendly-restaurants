@@ -4,10 +4,13 @@ import edu.miu.cs.cs544.oderdene.restaurant.entity.Customer;
 import edu.miu.cs.cs544.oderdene.restaurant.entity.Restaurant;
 import edu.miu.cs.cs544.oderdene.restaurant.entity.Review;
 import edu.miu.cs.cs544.oderdene.restaurant.exception.ResourceNotFoundException;
+import edu.miu.cs.cs544.oderdene.restaurant.jms.Sender;
 import edu.miu.cs.cs544.oderdene.restaurant.repository.CustomerRepository;
 import edu.miu.cs.cs544.oderdene.restaurant.repository.RestaurantRepository;
 import edu.miu.cs.cs544.oderdene.restaurant.repository.ReviewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,6 +25,9 @@ public class ReviewService {
 
     @Autowired
     private RestaurantRepository restaurantRepository;
+
+    @Autowired
+    private Sender sender;
 
     public List<Review> getReviewsByCustomerId(Integer customerId) {
         return reviewRepository.findByCustomerId(customerId);
@@ -40,6 +46,10 @@ public class ReviewService {
 
         review.setCustomer(customer);
         review.setRestaurant(restaurant);
+
+        // send rating
+        sender.sendRating(restaurantId, review.getRating());
+
         return reviewRepository.save(review);
     }
 
