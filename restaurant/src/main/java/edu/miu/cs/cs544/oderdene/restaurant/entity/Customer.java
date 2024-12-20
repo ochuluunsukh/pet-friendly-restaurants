@@ -2,11 +2,10 @@ package edu.miu.cs.cs544.oderdene.restaurant.entity;
 
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 @Entity
 public class Customer implements UserDetails {
@@ -20,7 +19,7 @@ public class Customer implements UserDetails {
     private String lastName;
     private String email;
     private String password;
-    private String role;
+    private String role;  // "ADMIN" or "USER"
 
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Review> reviews = new ArrayList<>();
@@ -126,7 +125,7 @@ public class Customer implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of();
+        return Arrays.asList(new SimpleGrantedAuthority(this.getRole()));
     }
 
     @Override

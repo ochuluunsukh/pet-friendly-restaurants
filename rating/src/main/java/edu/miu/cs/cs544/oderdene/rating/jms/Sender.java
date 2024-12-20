@@ -21,6 +21,7 @@ public class Sender {
         Map map = new HashMap();
         map.put("restaurantId", rate.getRestaurantId());
         map.put("rating", rate.getRating());
+        map.put("numberOfRatings", rate.getTotalRating());
         jmsTemplate.convertAndSend(ratingQueue1, map);
         System.out.println("Message sent to queue: ");
     }

@@ -10,7 +10,8 @@ import java.util.List;
 
 @Repository
 public interface RestaurantRepository extends JpaRepository<Restaurant, Integer> {
-//    List<Restaurant> findByNameContaining(String name);
+    List<Restaurant> findByName(@Param("name") String name);
+
     @Query("SELECT r FROM Restaurant r WHERE " +
             "(:name IS NULL OR LOWER(r.name) LIKE LOWER(CONCAT('%', :name, '%'))) AND " +
             "(:street IS NULL OR LOWER(r.address.street) LIKE LOWER(CONCAT('%', :street, '%'))) AND " +
@@ -27,4 +28,5 @@ public interface RestaurantRepository extends JpaRepository<Restaurant, Integer>
             @Param("zipCode") String zipCode,
             @Param("petMenuAvailable") Boolean petMenuAvailable,
             @Param("hasPetPlayArea") Boolean hasPetPlayArea);
+
 }

@@ -4,9 +4,11 @@ import edu.miu.cs.cs544.oderdene.restaurant.entity.*;
 import edu.miu.cs.cs544.oderdene.restaurant.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import java.util.Collections;
 import java.util.List;
 
 @Component
@@ -30,15 +32,24 @@ public class DatabaseInitializer implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         // Add Customers
-        Customer customer1 = new Customer("john_doe", "John", "Doe", "john.doe@example.com", passwordEncoder.encode("123"), "USER");
-        Customer customer2 = new Customer("jane_smith", "Jane", "Smith", "jane.smith@example.com", passwordEncoder.encode("123"), "USER");
-        customerRepository.saveAll(List.of(customer1, customer2));
+        Customer customer = new Customer("odkoo", "Od-Erdene", "Chuluunsukh", "ochuluunsukh@miu.edu", passwordEncoder.encode("123"), "ROLE_ADMIN");
+        Customer customer1 = new Customer("john", "John", "Doe", "john.doe@example.com", passwordEncoder.encode("123"), "ROLE_USER");
+        Customer customer2 = new Customer("jane", "Jane", "Smith", "jane.smith@example.com", passwordEncoder.encode("123"), "ROLE_USER");
+        customerRepository.saveAll(List.of(customer, customer1, customer2));
+
+        for (Customer c : List.of(customer, customer1, customer2)) {
+            new org.springframework.security.core.userdetails.User(
+                    c.getUsername(),
+                    c.getPassword(),
+                    Collections.singletonList(new SimpleGrantedAuthority(c.getRole().toUpperCase()))
+            );
+        }
 
         // Add Restaurants
         Address address1 = new Address("USA", "123 Main St", "Seattle", "WA", "98101");
         Address address2 = new Address("USA", "456 Elm St", "Portland", "OR", "97201");
-        Restaurant restaurant1 = new Restaurant("Pet Grill", 4.5, 100, true, true, "", address1);
-        Restaurant restaurant2 = new Restaurant("Cat Cafe", 4.8, 200, true, false, "", address2);
+        Restaurant restaurant1 = new Restaurant("Pet Grill", 5, 1, true, true, "", address1);
+        Restaurant restaurant2 = new Restaurant("Cat Cafe", 4, 1, true, false, "", address2);
         restaurantRepository.saveAll(List.of(restaurant1, restaurant2));
 
         // Add Reviews

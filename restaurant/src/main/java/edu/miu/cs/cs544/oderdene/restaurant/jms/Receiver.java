@@ -19,8 +19,9 @@ public class Receiver {
     public void receiveRating(Map<String, ?> map) {
         Integer restaurantId = (Integer) map.get("restaurantId");
         Integer rating = (Integer) map.get("rating");
+        Integer numberOfRatings = (Integer) map.get("numberOfRatings");
 
-        restaurantService.updateRating(restaurantId, rating);
+        restaurantService.updateRating(restaurantId, rating, numberOfRatings);
 
         System.out.println("Received ratingQueue1: RestaurantID=" + restaurantId + " Rating=" + rating);
     }

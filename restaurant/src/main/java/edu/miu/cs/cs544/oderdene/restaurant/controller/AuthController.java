@@ -24,6 +24,7 @@ public class AuthController {
     public AuthController(CustomerDetailService customerDetailService) {
         this.customerDetailService = customerDetailService;
     }
+
 //    @PostMapping("/login")
 //    public ResponseEntity<String> login(@RequestParam String username, @RequestParam String password) {
 //        Authentication authentication = authenticationManager.authenticate(
@@ -40,8 +41,12 @@ public class AuthController {
             return ResponseEntity.badRequest().body("Username already exists");
         } catch (Exception ignored) {
             Customer cust = new Customer(
+                    registerRequest.getFirstName(),
+                    registerRequest.getLastName(),
                     registerRequest.getUsername(),
-                    passwordEncoder.encode(registerRequest.getPassword())
+                    registerRequest.getEmail(),
+                    passwordEncoder.encode(registerRequest.getPassword()),
+                    "USER"
             );
 
             customerService.saveCustomer(cust);

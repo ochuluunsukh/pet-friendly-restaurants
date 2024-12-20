@@ -15,19 +15,16 @@ public class ReviewController {
     @Autowired
     private ReviewService reviewService;
 
-    // GET - Get all reviews by a customer
     @GetMapping("/customer/{customerId}")
     public ResponseEntity<List<Review>> getReviewsByCustomer(@PathVariable Integer customerId) {
         return new ResponseEntity<>(reviewService.getReviewsByCustomerId(customerId), HttpStatus.OK);
     }
 
-    // GET - Get all reviews for a restaurant
     @GetMapping("/restaurant/{restaurantId}")
     public ResponseEntity<List<Review>> getReviewsByRestaurant(@PathVariable Integer restaurantId) {
         return new ResponseEntity<>(reviewService.getReviewsByRestaurantId(restaurantId), HttpStatus.OK);
     }
 
-    // POST - Add a new review
     @PostMapping
     public ResponseEntity<Review> addReview(
             @RequestParam Integer customerId,
@@ -36,7 +33,6 @@ public class ReviewController {
         return new ResponseEntity<>(reviewService.addReview(customerId, restaurantId, review), HttpStatus.CREATED);
     }
 
-    // DELETE - Delete a review
     @DeleteMapping("/{reviewId}")
     public ResponseEntity<Void> deleteReview(@PathVariable Integer reviewId) {
         reviewService.deleteReview(reviewId);

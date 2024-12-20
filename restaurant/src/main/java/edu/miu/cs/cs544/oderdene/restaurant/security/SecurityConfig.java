@@ -19,7 +19,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SecurityConfig {
 
-    private int BCRYPT_ROUNDS = 4;
+    private int BCRYPT_ROUNDS = 7;
 
     @Bean
     public UserDetailsService userDetailsService() {
@@ -31,7 +31,9 @@ public class SecurityConfig {
         http.csrf(AbstractHttpConfigurer::disable).sessionManagement(
             session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests((authorize) -> authorize
-                        .requestMatchers("/login", "logout", "/register").permitAll()
+                        .requestMatchers("/restaurants", "/customers").hasRole("ADMIN")
+                        .requestMatchers("/**").hasAnyRole("USER")
+                        .requestMatchers("/login", "/logout", "/register").permitAll()
                         .anyRequest().authenticated()
                 ).httpBasic(Customizer.withDefaults());
         return http.build();
