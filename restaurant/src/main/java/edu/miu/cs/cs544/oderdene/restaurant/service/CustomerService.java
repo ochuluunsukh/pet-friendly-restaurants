@@ -4,6 +4,9 @@ import edu.miu.cs.cs544.oderdene.restaurant.entity.Customer;
 import edu.miu.cs.cs544.oderdene.restaurant.exception.ResourceNotFoundException;
 import edu.miu.cs.cs544.oderdene.restaurant.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,6 +14,7 @@ import java.util.Optional;
 
 @Service
 public class CustomerService {
+
     @Autowired
     private CustomerRepository customerRepository;
 
@@ -40,9 +44,17 @@ public class CustomerService {
     }
 
     public void deleteCustomer(Integer id) {
-//        return customerRepository.deleteById(id);
         Customer review = customerRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Review not found"));
         customerRepository.delete(review);
+    }
+
+    public Customer getCurrentUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.getPrincipal() instanceof UserDetails)
+        {
+            return (Customer) authentication.getPrincipal();
+        }
+        return null;
     }
 }

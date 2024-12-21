@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/restaurants")
 public class RestaurantSearchController {
     @Autowired
     private RestaurantService restaurantService;

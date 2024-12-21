@@ -35,7 +35,8 @@ public class DatabaseInitializer implements CommandLineRunner {
         Customer customer = new Customer("odkoo", "Od-Erdene", "Chuluunsukh", "ochuluunsukh@miu.edu", passwordEncoder.encode("123"), "ROLE_ADMIN");
         Customer customer1 = new Customer("john", "John", "Doe", "john.doe@example.com", passwordEncoder.encode("123"), "ROLE_USER");
         Customer customer2 = new Customer("jane", "Jane", "Smith", "jane.smith@example.com", passwordEncoder.encode("123"), "ROLE_USER");
-        customerRepository.saveAll(List.of(customer, customer1, customer2));
+        Customer customer3 = new Customer("jack", "Jack", "Westenberg", "jack.westenberg@example.com", passwordEncoder.encode("123"), "ROLE_USER");
+        customerRepository.saveAll(List.of(customer, customer1, customer2, customer3));
 
         for (Customer c : List.of(customer, customer1, customer2)) {
             new org.springframework.security.core.userdetails.User(
@@ -55,7 +56,7 @@ public class DatabaseInitializer implements CommandLineRunner {
         // Add Reviews
         Review review1 = new Review(customer1, restaurant1, "Great food and dog-friendly!", Rating.FIVE, "Dog-friendly patio");
         Review review2 = new Review(customer2, restaurant2, "Loved the cat-friendly vibe!", Rating.FOUR, "Perfect for cat lovers");
-        reviewRepository.saveAll(List.of(review1, review2));
+        reviewRepository.saveAll(List.of(review1));
 
         // Add Favorites
         Favorite favorite1 = new Favorite(customer1, restaurant1);

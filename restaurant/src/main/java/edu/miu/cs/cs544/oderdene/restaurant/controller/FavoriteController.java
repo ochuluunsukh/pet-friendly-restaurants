@@ -21,13 +21,13 @@ public class FavoriteController {
     }
 
     @PostMapping
-    public ResponseEntity<Favorite> addFavorite(@RequestParam Integer customerId, @RequestParam Integer restaurantId) {
-        return new ResponseEntity<>(favoriteService.addFavorite(customerId, restaurantId), HttpStatus.CREATED);
+    public ResponseEntity<Favorite> addFavorite(@RequestParam Integer restaurantId) {
+        return new ResponseEntity<>(favoriteService.addFavorite(restaurantId), HttpStatus.CREATED);
     }
 
     @DeleteMapping
-    public ResponseEntity<Void> removeFavorite(@RequestParam Integer customerId, @RequestParam Integer restaurantId) {
-        favoriteService.removeFavorite(customerId, restaurantId);
+    public ResponseEntity<Void> removeFavorite(@RequestParam Integer restaurantId) {
+        favoriteService.removeFavorite(restaurantId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

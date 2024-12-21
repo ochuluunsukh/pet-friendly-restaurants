@@ -8,6 +8,7 @@ import edu.miu.cs.cs544.oderdene.restaurant.jms.Sender;
 import edu.miu.cs.cs544.oderdene.restaurant.repository.CustomerRepository;
 import edu.miu.cs.cs544.oderdene.restaurant.repository.RestaurantRepository;
 import edu.miu.cs.cs544.oderdene.restaurant.repository.ReviewRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jms.core.JmsTemplate;
@@ -29,6 +30,9 @@ public class ReviewService {
     @Autowired
     private Sender sender;
 
+    @Autowired
+    private CustomerService customerService;
+
     public List<Review> getReviewsByCustomerId(Integer customerId) {
         return reviewRepository.findByCustomerId(customerId);
     }
@@ -37,14 +41,18 @@ public class ReviewService {
         return reviewRepository.findByRestaurantId(restaurantId);
     }
 
-    public Review addReview(Integer customerId, Integer restaurantId, Review review) {
-        Customer customer = customerRepository.findById(customerId)
-                .orElseThrow(() -> new ResourceNotFoundException("Customer not found"));
+    public Review addReview(Integer restaurantId, Review review) {
+        Customer currentCust = customerService.getCurrentUser();
 
         Restaurant restaurant = restaurantRepository.findById(restaurantId)
                 .orElseThrow(() -> new ResourceNotFoundException("Restaurant not found"));
 
-        review.setCustomer(customer);
+        boolean reviewExists = reviewRepository.existsByCustomerAndRestaurant(currentCust, restaurant);
+        if (reviewExists) {
+            throw new ResourceNotFoundException("You have already reviewed this restaurant.");
+        }
+
+        review.setCustomer(currentCust);
         review.setRestaurant(restaurant);
 
         // send rating
@@ -53,9 +61,15 @@ public class ReviewService {
         return reviewRepository.save(review);
     }
 
+    @Transactional
     public void deleteReview(Integer reviewId) {
-        Review review = reviewRepository.findById(reviewId)
-                .orElseThrow(() -> new ResourceNotFoundException("Review not found"));
-        reviewRepository.delete(review);
+        try {
+            Customer currentCust = customerService.getCurrentUser();
+            Review review = reviewRepository.findByIdAndCustomerId(reviewId, currentCust.getId())
+                    .orElseThrow(() -> new ResourceNotFoundException("Review not found"));
+            reviewRepository.delete(review);
+        } catch (Exception ex) {
+            throw new RuntimeException("Failed to delete review with pessimistic lock: " + ex.getMessage());
+        }
     }
 }

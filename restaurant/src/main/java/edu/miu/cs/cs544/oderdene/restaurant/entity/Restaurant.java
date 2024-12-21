@@ -6,9 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@NamedQueries({
-        @NamedQuery(name = "Restaurant.findByName", query = "SELECT r FROM Restaurant r WHERE r.name = :name")
-})
+@NamedQuery(name = "Restaurant.findByName", query = "SELECT r FROM Restaurant r WHERE r.name like '%:name%'")
 public class Restaurant {
 
     @Id

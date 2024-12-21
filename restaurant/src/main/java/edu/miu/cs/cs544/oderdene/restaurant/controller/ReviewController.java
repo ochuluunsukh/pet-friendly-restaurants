@@ -27,10 +27,9 @@ public class ReviewController {
 
     @PostMapping
     public ResponseEntity<Review> addReview(
-            @RequestParam Integer customerId,
             @RequestParam Integer restaurantId,
             @RequestBody Review review) {
-        return new ResponseEntity<>(reviewService.addReview(customerId, restaurantId, review), HttpStatus.CREATED);
+        return new ResponseEntity<>(reviewService.addReview(restaurantId, review), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{reviewId}")

@@ -14,7 +14,7 @@ public class RateReview {
     private Integer count;
     private Integer totalRating;
 
-    public RateReview() {}
+    protected RateReview() {}
 
     public RateReview(int restaurantId, int rating, int count, int totalRating) {
         this.restaurantId = restaurantId;

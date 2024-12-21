@@ -25,32 +25,35 @@ public class FavoriteService {
     @Autowired
     private FavoriteRepository favoriteRepository;
 
+    @Autowired
+    private CustomerService customerService;
 
     public List<Favorite> getFavoritesByCustomerId(Integer customerId) {
         return favoriteRepository.findByCustomerId(customerId);
     }
 
-    public Favorite addFavorite(Integer customerId, Integer restaurantId) {
-        Customer customer = customerRepository.findById(customerId)
-                .orElseThrow(() -> new ResourceNotFoundException("Customer not found"));
+    public Favorite addFavorite(Integer restaurantId) {
+        Customer currentCust = customerService.getCurrentUser();
 
         Restaurant restaurant = restaurantRepository.findById(restaurantId)
                 .orElseThrow(() -> new ResourceNotFoundException("Restaurant not found"));
 
-        Optional<Favorite> existingFavorite = favoriteRepository.findByCustomerIdAndRestaurantId(customerId, restaurantId);
+        Optional<Favorite> existingFavorite = favoriteRepository.findByCustomerIdAndRestaurantId(currentCust.getId(), restaurantId);
 
         if (existingFavorite.isPresent()) {
             throw new DuplicateResourceException("This restaurant is already in the customer's favorites.");
         }
 
         Favorite favorite = new Favorite();
-        favorite.setCustomer(customer);
+        favorite.setCustomer(currentCust);
         favorite.setRestaurant(restaurant);
         return favoriteRepository.save(favorite);
     }
 
-    public void removeFavorite(Integer customerId, Integer restaurantId) {
-        Favorite favorite = favoriteRepository.findByCustomerIdAndRestaurantId(customerId, restaurantId)
+    public void removeFavorite(Integer restaurantId) {
+        Customer currentCust = customerService.getCurrentUser();
+
+        Favorite favorite = favoriteRepository.findByCustomerIdAndRestaurantId(currentCust.getId(), restaurantId)
                 .orElseThrow(() -> new ResourceNotFoundException("Favorite not found"));
         favoriteRepository.delete(favorite);
     }

@@ -51,8 +51,8 @@ public class Review {
     @Column(length = 500)
     private String petSpecificNotes;
 
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+    @Version
+    private Integer version;
 
     protected Review() {}
 
@@ -62,8 +62,6 @@ public class Review {
         this.text = text;
         this.rating = rating;
         this.petSpecificNotes = petSpecificNotes;
-        this.createdAt = LocalDateTime.now();
-        this.updatedAt = LocalDateTime.now();
     }
 
     public Integer getId() {
@@ -109,22 +107,6 @@ public class Review {
         this.rating = rating;
     }
 
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(LocalDateTime updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
     public String getPetSpecificNotes() {
         return petSpecificNotes;
     }
@@ -140,8 +122,6 @@ public class Review {
                 ", restaurant=" + restaurant +
                 ", text='" + text + '\'' +
                 ", rating=" + rating +
-                ", createdAt=" + createdAt +
-                ", updatedAt=" + updatedAt +
                 ", petSpecificNotes='" + petSpecificNotes + '\'' +
                 '}';
     }

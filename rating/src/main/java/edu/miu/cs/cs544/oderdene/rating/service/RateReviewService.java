@@ -23,7 +23,8 @@ public class RateReviewService {
             RateReview rate = ro.get();
             Integer total = rate.getTotalRating();
             Integer count = rate.getCount();
-            Integer reviewRating = (total + rating) / count;
+
+            Integer reviewRating = (total + rating) / (count + 1);
 
             rate.setTotalRating(total+rating);
             rate.setCount(count+1);
@@ -36,6 +37,8 @@ public class RateReviewService {
         } else {
             RateReview rate = new RateReview(id, rating, 1, rating);
             rateReviewRepository.save(rate);
+            // send rate
+            sender.sendRate(rate);
         }
     }
 }
