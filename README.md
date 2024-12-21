@@ -6,7 +6,7 @@
 The application should allow customers to find, review, and explore pet-friendly restaurants. Key requirements include:
 
 - **Customer Registration and Authentication**:
-  - Customers can sign up, log in, and manage their profiles.
+  - Customers can register.
   - Customers can save their favorite pet-friendly restaurants.
 
 - **Restaurant Management**:
@@ -65,7 +65,7 @@ To ensure modularity and scalability, divide the application into two Spring Boo
      - Manage restaurant data (CRUD operations).
      - Manage customer data (CRUD operations).
      - Handle restaurant search, filtering, and pet-specific policy management.
-     - Manage customer profiles, favorites, and reviews.
+     - Manage customer favorites, and reviews.
      - Handle authentication.
    - **Entities**:
      - `Restaurant`, `Address`, `Customer`, `Favorite`, `Review`.
