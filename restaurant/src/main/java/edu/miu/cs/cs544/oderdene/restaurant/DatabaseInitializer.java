@@ -38,14 +38,6 @@ public class DatabaseInitializer implements CommandLineRunner {
         Customer customer3 = new Customer("jack", "Jack", "Westenberg", "jack.westenberg@example.com", passwordEncoder.encode("123"), "ROLE_USER");
         customerRepository.saveAll(List.of(customer, customer1, customer2, customer3));
 
-        for (Customer c : List.of(customer, customer1, customer2)) {
-            new org.springframework.security.core.userdetails.User(
-                    c.getUsername(),
-                    c.getPassword(),
-                    Collections.singletonList(new SimpleGrantedAuthority(c.getRole().toUpperCase()))
-            );
-        }
-
         // Add Restaurants
         Address address1 = new Address("USA", "123 Main St", "Seattle", "WA", "98101");
         Address address2 = new Address("USA", "456 Elm St", "Portland", "OR", "97201");
